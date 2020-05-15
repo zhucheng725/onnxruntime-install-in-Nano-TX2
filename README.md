@@ -25,12 +25,14 @@ export CUDACXX="/usr/local/cuda/bin/nvcc"
 
 # Install onnxruntime step by step(if your network is bad):
 
-```
-1. download from website: https://github.com/microsoft/onnxruntime/tree/Jetson-arm64-CI-tag-v1.2.0
+
+1. download from website: 
+```https://github.com/microsoft/onnxruntime/tree/Jetson-arm64-CI-tag-v1.2.0
 #Jetpack 4.4 can be used in v1.2.0
+```
 
 2.download from website:
-
+```
 1.DNNLibrary : https://github.com/JDAI-CV/DNNLibrary/tree/e17f11e966b2cce7d747799b76bb9843813d4b01
 2.FeaturizersLibrary : https://github.com/microsoft/FeaturizersLibrary/tree/afebe4c9d49ed74918bf8879aaa7aa93ccc7e47c
 3.cub : https://github.com/NVlabs/cub/tree/c3cceac115c072fb63df1836ff46d8c60d9eb304
@@ -47,10 +49,27 @@ export CUDACXX="/usr/local/cuda/bin/nvcc"
 14.re2 : https://github.com/google/re2/tree/30cad267151fa8f1b17da8c1ef0571da6da9a8f1
 15.tvm : https://github.com/microsoft/onnxruntime-tvm/tree/c6e3efcdb09aeda961a6badf76093ceac69db64d
 16.wil : https://github.com/microsoft/wil/tree/e8c599bca6c56c44b6730ad93f6abbc9ecd60fc1
+17.SafeInt : https://github.com/dcleblanc/SafeInt/tree/39de59d5bca3a226a241b29571abe1493d15d07a
 ```
+
 and replace these files in 
 ```
 /home/nvidia/onnxruntime-Jetson-arm64-CI-tag-v1.2.0/cmake/external/
 ```
+Then do as follow:
+```
+1.
+export CUDACXX="/usr/local/cuda/bin/nvcc"
 
+2.Modify tools/ci_build/build.py
+- "-Donnxruntime_DEV_MODE=" + ("OFF" if args.android else "ON"),
++ "-Donnxruntime_DEV_MODE=" + ("OFF" if args.android else "OFF"),
+
+3.Modify cmake/CMakeLists.txt
+-  set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -gencode=arch=compute_50,code=sm_50") # M series
++  set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -gencode=arch=compute_53,code=sm_53") # Jetson TX1/Nano 
+
+4.
+./build.sh --config Release --update --build --build_wheel --use_tensorrt --cuda_home /usr/local/cuda --cudnn_home /usr/lib/aarch64-linux-gnu --tensorrt_home /usr/lib/aarch64-linux-gnu
+```
 
