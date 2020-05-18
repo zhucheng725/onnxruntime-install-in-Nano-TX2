@@ -123,3 +123,10 @@ for i in range(10):
 end_time = time.time()
 print('time:', end_time - start_time)
 ```
+
+# To create engine using trtexec
+```
+cd /usr/src/tensorrt/bin
+
+./trtexec  --explicitBatch --onnx=/home/nvidia/procedure/keras/onnx/add_argmax_layers.onnx --saveEngine=/home/nvidia/procedure/keras/onnx/add_argmax_layers.engine
+```
