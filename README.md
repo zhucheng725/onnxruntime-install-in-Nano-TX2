@@ -77,7 +77,20 @@ export CUDACXX="/usr/local/cuda/bin/nvcc"
 cd /home/nvidia/onnxruntime-1.1.2/build/Linux/Release/dist
 pip3 install onnxruntime_gpu_tensorrt-1.1.2-cp36-cp36m-linux_aarch64.whl
 ```
+# To write onnx:
+```
+#For PC(have keras2onnx)
 
+import onnxruntime
+#model = load_model('/path')
+onnx_model = keras2onnx.convert_keras(model, model.name)
+
+with open('/home/zhu/procedure/onnx/model/keras2onnx/add_argmax_layers.onnx', 'wb') as f: 
+    f.write(onnx_model.SerializeToString())
+    
+ or (have tf2onnx):
+ python3 -m tf2onnx.convert --graphdef /home/zhu/procedure/onnx/model/trans_model/add_argmax_layers.pb --output /home/zhu/procedure/onnx/model/trans_model/add_argmax_layers.onnx --inputs input_1:0 --outputs lambda_1/ArgMax:0 --opset 12
+```
 
 # To read onnx:
 ```
