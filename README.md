@@ -72,6 +72,13 @@ export CUDACXX="/usr/local/cuda/bin/nvcc"
 4.
 ./build.sh --config Release --update --build --build_wheel --use_tensorrt --cuda_home /usr/local/cuda --cudnn_home /usr/lib/aarch64-linux-gnu --tensorrt_home /usr/lib/aarch64-linux-gnu
 ```
+# To install onnx
+```
+cd /home/nvidia/onnxruntime-1.1.2/build/Linux/Release/dist
+pip3 install onnxruntime_gpu_tensorrt-1.1.2-cp36-cp36m-linux_aarch64.whl
+```
+
+
 # To read onnx:
 ```
 import onnxruntime
